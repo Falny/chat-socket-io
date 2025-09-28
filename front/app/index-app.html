@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style-app.css" />
+    <title>Chat</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="panel">
+        <div class="mini-panel">
+          <div class="choose-users">
+            <p class="users">Choose user...</p>
+            <ul class="drop-menu"></ul>
+          </div>
+        </div>
+        <ul class="group-chats"></ul>
+      </div>
+      <div class="chat">
+        <div class="profile">
+          <div class="avatar"></div>
+          <div class="profile-block_name">
+            <p class="profile-name"></p>
+            <div class="state-online"></div>
+          </div>
+        </div>
+        <div class="block-empty-chat">
+          <img src="../tenor.gif" alt="" class="gif" />
+          <div class="empty-chat">Chat is empty</div>
+        </div>
+        <div class="message">
+          <ul class="list-message"></ul>
+        </div>
+        <div class="text">
+          <textarea class="input-text" placeholder="text..."></textarea>
+          <button class="send-btn" type="button">
+            <img src="../send-alt.svg" alt="send" class="icon send-message" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="script.js"></script>
+</html>

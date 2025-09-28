@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Chat</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="toogle-title">
+        <div class="form-text active">Log in</div>
+        <div class="form-text">Registration</div>
+      </div>
+      <div class="form form-toggle">
+        <div class="field-group">
+          <input type="text" class="name login-login" placeholder=" " />
+          <label class="label">Login</label>
+        </div>
+        <div class="field-group">
+          <input type="password" class="name login-password" placeholder=" " />
+          <label class="label">Password</label>
+          <img
+            src="./eye-password-see-view.svg"
+            alt=""
+            class="check-password"
+          />
+        </div>
+        <button type="button" class="btn btn-enter">Continue</button>
+      </div>
+      <form class="form" method="post" onsubmit="return false">
+        <div class="field-group">
+          <input type="text" class="name register-login" placeholder=" " />
+          <label class="label">Login</label>
+        </div>
+        <div class="field-group">
+          <input
+            type="password"
+            class="name register-password"
+            placeholder=" "
+          />
+          <label class="label">Password</label>
+          <img
+            src="./eye-password-see-view.svg"
+            alt=""
+            class="check-password"
+          />
+        </div>
+        <div class="field-group">
+          <input
+            type="password"
+            class="name register-password_checked"
+            placeholder=" "
+          />
+          <label class="label">Password again</label>
+          <img
+            src="./eye-password-see-view.svg"
+            alt=""
+            class="check-password"
+          />
+          <p class="error-password">Пароли не совпадают</p>
+        </div>
+        <button type="button" class="btn btn-register">Continue</button>
+      </form>
+      <p class="success-register-or-login"></p>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let field = document.querySelector(".name");
+        let btn = document.querySelector(".btn-enter");
+        let btnRegister = document.querySelector(".btn-register");
+        let error = document.querySelector(".error-password");
+
+        let loginLogin = document.querySelector(".login-login");
+        let loginPassword = document.querySelector(".login-password");
+
+        let registerLogin = document.querySelector(".register-login");
+        let registerPass = document.querySelector(".register-password");
+        let registerCheckPass = document.querySelector(
+          ".register-password_checked"
+        );
+
+        let successRegister = document.querySelector(
+          ".success-register-or-login"
+        );
+
+        let toggle = document.querySelectorAll(".form-text"); // это login и register
+        let toggleForm = document.querySelectorAll(".form"); // переключение форм
+
+        btn.addEventListener("click", login);
+        btnRegister.addEventListener("click", registr);
+
+        // показ пароля
+        let iconPass = document.querySelectorAll(".check-password");
+        iconPass.forEach((el) =>
+          el.addEventListener("click", (event) => {
+            let parent = event.target.closest(".field-group");
+            let pass = parent.querySelector(".name");
+            pass.type = pass.type === "text" ? "password" : "text";
+          })
+        );
+
+        toggleFORM();
+        // смена формы
+        function toggleFORM() {
+          toggle.forEach((el, toggleIndex) => {
+            el.addEventListener("click", () => {
+              removeStyleForm(); // удаляю классы у форм
+              el.classList.add("active");
+              toggleForm.forEach((el, index) => {
+                if (toggleIndex === index) {
+                  el.classList.add("form-toggle");
+                }
+              });
+            });
+          });
+        }
+
+        function removeStyleForm() {
+          toggleForm.forEach((i) => i.classList.remove("form-toggle")); // удаляю классы у форм
+          toggle.forEach((i) => i.classList.remove("active")); // удаляю классы у слов
+        }
+
+        async function sendLoginData(login, password) {
+          try {
+            let response = await fetch("http://localhost:5000/login", {
+              method: "POST",
+              body: JSON.stringify({
+                login: login,
+                password: password,
+              }),
+            });
+
+            let data = await response.json();
+
+            if (response.status === 200) {
+              window.localStorage.setItem("token", data["token"]);
+              return true;
+            }
+            if (response.status === 500) {
+              successRegister.textContent = data["message"];
+              successRegister.classList.add("error");
+              setTimeout(() => {
+                successRegister.classList.remove("error");
+              }, 4000);
+              return false;
+            }
+          } catch (error) {
+            console.log(error, "ошибка логина или пароля");
+            successRegister.textContent = "ошибка логина или пароля";
+            successRegister.classList.add("error");
+            setTimeout(() => {
+              successRegister.classList.remove("error");
+            }, 4000);
+          }
+        }
+
+        async function login() {
+          if (loginLogin.value.length < 0 || loginPassword.value.length < 0) {
+            successRegister.textContent = "Заполните все поля";
+            successRegister.classList.add("error");
+            setTimeout(() => {
+              successRegister.classList.remove("error");
+            }, 4000);
+            return;
+          }
+
+          let loginData = await sendLoginData(
+            loginLogin.value,
+            loginPassword.value
+          );
+
+          if (loginData) {
+            console.log("1");
+            console.log(window.location.href, "123");
+            window.location.href = `app/index-app.html?login=${loginLogin.value}`;
+            console.log(window.location.href);
+            resetFormRegister();
+          }
+        }
+
+        async function registration() {
+          try {
+            let response = await fetch("http://localhost:5000/registr", {
+              method: "POST",
+              body: JSON.stringify({
+                login: registerLogin.value,
+                password: registerPass.value,
+              }),
+            });
+            let data = await response.json();
+
+            if (response.status === 200) {
+              successRegister.innerHTML = `${data["message"]}, <br> Можете входить!`;
+              successRegister.classList.add("activate");
+              removeStyleForm();
+              toggle[0].classList.add("active");
+              toggleForm[0].classList.add("form-toggle");
+              setTimeout(() => {
+                successRegister.classList.remove("activate");
+              }, 4000);
+            } else {
+              successRegister.innerHTML = `${data["message"]}, <br> Попробуйте снова`;
+              successRegister.classList.add("error");
+
+              setTimeout(() => {
+                successRegister.classList.remove("error");
+              }, 4000);
+            }
+
+            return data;
+          } catch (error) {
+            alert("ошибка отправки", error);
+            console.log("ошибка отправки", error);
+          }
+        }
+
+        async function registr() {
+          if (!registerLogin.value || registerLogin.value.length <= 0)
+            return false;
+
+          if (registerPass.value !== registerCheckPass.value) {
+            error.classList.add("error-active");
+            setTimeout(() => {
+              error.classList.remove("error-active");
+            }, 1000);
+            return false;
+          }
+
+          try {
+            let registerAnswer = await registration();
+          } catch (error) {
+            alert("ошибка регистрации", error);
+            console.log("ошибка регистрации ", error);
+          }
+          resetFormRegister();
+          return false;
+        }
+
+        function resetFormRegister() {
+          registerLogin.value = "";
+          registerPass.value = "";
+          registerCheckPass.value = "";
+
+          loginLogin.value = "";
+          loginPassword.value = "";
+        }
+      });
+    </script>
+  </body>
+</html>

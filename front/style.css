@@ -1,0 +1,179 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("./Montserrat-VariableFont_wght.ttf") format("truetype");
+}
+
+body {
+  height: 100vh;
+  background-image: url("./5630939.jpg");
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.toogle-title {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+.form-text {
+  color: #a9a9a9;
+  font-size: 30px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #fff;
+  cursor: pointer;
+}
+
+.active {
+  color: #fff;
+}
+
+.form {
+  display: none;
+}
+
+.form-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.field-group {
+  position: relative;
+}
+
+.label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  color: #717171;
+  transition: all 0.3s;
+  pointer-events: none;
+}
+
+.name {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.name:focus {
+  outline: 2px solid #213091;
+}
+
+.name:focus ~ .label,
+.name:not(:placeholder-shown) ~ .label {
+  font-size: 14px;
+  left: 5px;
+  top: 0;
+  color: #213091;
+  background-color: #fff;
+  padding: 3px;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.check-password {
+  display: none;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 55px;
+  z-index: 100;
+}
+
+.name:focus ~ .check-password,
+.name:not(:placeholder-shown) ~ .check-password {
+  display: block;
+}
+
+.error-password {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -75%;
+  color: #fff;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: #213091;
+  display: none;
+  transition: all 0.3s;
+}
+
+.error-active {
+  display: block;
+  transition: all 0.3s;
+}
+
+.error-user {
+  color: #fff;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: #190677;
+  display: none;
+}
+
+.btn {
+  background-color: #213091;
+  padding: 10px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: #190677;
+  transition: all 0.3s;
+}
+
+.success-register-or-login::first-letter {
+  text-transform: uppercase;
+}
+
+.success-register-or-login {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  color: #fff;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  text-transform: lowercase;
+  transform: translateY(100%);
+  transition: all 0.3s;
+}
+
+.success-register-or-login.activate {
+  background-color: rgb(170, 243, 166, 0.6);
+  transform: translateY(0);
+  transition: all 0.3s;
+}
+
+.success-register-or-login.error {
+  background-color: rgba(255, 111, 111, 0.6);
+  transform: translateY(0);
+  transition: all 0.3s;
+}
