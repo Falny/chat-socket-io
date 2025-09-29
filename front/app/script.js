@@ -62,7 +62,7 @@ groupChats.addEventListener("click", (event) => clickOnChat(event));
 
 async function getChat() {
   try {
-    let response = await fetch("http://localhost:5000/get-all-chats", {
+    let response = await fetch(`${window.location.origin}/get-all-chats`, {
       method: "POST",
       body: JSON.stringify(myName),
     });
@@ -80,7 +80,7 @@ async function getChat() {
 // получение людей и добавление в выпадающее меню
 const getUsers = async () => {
   try {
-    let response = await fetch("http://localhost:5000/get-all-users", {
+    let response = await fetch(`${window.location.origin}/get-all-users`, {
       method: "POST",
       body: JSON.stringify({ login: login }),
     });
