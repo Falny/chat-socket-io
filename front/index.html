@@ -124,7 +124,7 @@
 
         async function sendLoginData(login, password) {
           try {
-            let response = await fetch("http://localhost:5000/login", {
+            let response = await fetch(`${window.location.origin}/login`, {
               method: "POST",
               body: JSON.stringify({
                 login: login,
@@ -182,7 +182,7 @@
 
         async function registration() {
           try {
-            let response = await fetch("http://localhost:5000/registr", {
+            let response = await fetch(`${window.location.origin}/registr`, {
               method: "POST",
               body: JSON.stringify({
                 login: registerLogin.value,

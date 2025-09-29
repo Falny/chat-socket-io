@@ -16,10 +16,10 @@ const login = searchParams.get("login");
 const tokenLocalStorage = window.localStorage.getItem("token");
 
 if (!tokenLocalStorage) {
-  window.location.href = "http://localhost:5000";
+  window.location.href = "/";
 }
 console.log("2222");
-let socket = io("http://localhost:5000", {
+let socket = io(`${window.location.origin}`, {
   auth: {
     login: login,
     token: tokenLocalStorage,
